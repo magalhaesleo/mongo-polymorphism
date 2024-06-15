@@ -4,11 +4,21 @@ namespace ProductsRegistrator;
 
 public class ProductsReader(IMongoDatabase database)
 {
-    public Task<Product> Get()
+    public Task<List<Mouse>> GetMouses()
     {
-        var productsCollection = database.GetCollection<Product>("products");
-        return productsCollection
-            .Find(FilterDefinition<Product>.Empty)
-            .FirstOrDefaultAsync();
+        return database
+            .GetCollection<Product>("products")
+            .OfType<Mouse>()
+            .Find(FilterDefinition<Mouse>.Empty)
+            .ToListAsync();
+    }
+
+    public Task<List<Smartphone>> GetSmartphones()
+    {
+        return database
+            .GetCollection<Product>("products")
+            .OfType<Smartphone>()
+            .Find(FilterDefinition<Smartphone>.Empty)
+            .ToListAsync();
     }
 }

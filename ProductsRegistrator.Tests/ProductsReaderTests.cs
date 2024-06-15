@@ -10,7 +10,7 @@ public class ProductsReaderTests : IClassFixture<MongoFixture>, IAsyncLifetime
 
     public ProductsReaderTests(MongoFixture mongoFixture)
     {
-        _database = mongoFixture.MongoClient.GetDatabase("ProductsDatabase");
+        _database = mongoFixture.GetMongoClient().GetDatabase("ProductsDatabase");
         _reader = new ProductsReader(_database);
     }
 
@@ -35,11 +35,8 @@ public class ProductsReaderTests : IClassFixture<MongoFixture>, IAsyncLifetime
     [Fact]
     public async Task Given_a_database_should_get_all_mouses()
     {
-        // Arrange
-        var reader = new ProductsReader(_database);
-
         // Act
-        var result = await reader.GetMouses();
+        var result = await _reader.GetMouses();
 
         // Assert
         Assert.NotEmpty(result);
@@ -48,11 +45,8 @@ public class ProductsReaderTests : IClassFixture<MongoFixture>, IAsyncLifetime
     [Fact]
     public async Task Given_a_database_should_get_all_smartphones()
     {
-        // Arrange
-        var reader = new ProductsReader(_database);
-
         // Act
-        var result = await reader.GetSmartphones();
+        var result = await _reader.GetSmartphones();
 
         // Assert
         Assert.NotEmpty(result);
